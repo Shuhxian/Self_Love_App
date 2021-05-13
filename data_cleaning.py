@@ -51,7 +51,8 @@ def data_cleaning(df):
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Photography','Photography and Videography')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Vlogging','Photography and Videography')
     return df
- def hobby_count(df):
+
+def hobby_count(df):
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.split(";")
     dict_hobby={}
     for hobbies in df['What are your hobbies? (You may select more than 1)']:
