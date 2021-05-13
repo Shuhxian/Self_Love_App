@@ -6,11 +6,12 @@ def data_encoding(df):
     df1 = df.iloc[:, 1:3]
     df2 = df.iloc[:, 18:]
     df_categories = pd.concat([df1, df2], axis =1)
-    df_ranges = df.iloc[:, 3:17]
+    df_hobby=df.iloc[:,3]
+    df_ranges = df.iloc[:, 4:17]
   
     df_categories_encoder = df_categories.apply(LabelEncoder().fit_transform)
     df = pd.concat([df_categories_encoder, df_ranges], axis =1)
-    df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.split(";")
+    df = pd.concat([df, df_hobby], axis =1)
     for i in range(len(df)):
         for hobby in df.loc[i,'What are your hobbies? (You may select more than 1)']:
             df.loc[i,hobby]=1
