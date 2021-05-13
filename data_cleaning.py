@@ -1,6 +1,5 @@
 import pandas as pd
 def data_cleaning(df):
-    del df['Timestamp']
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('yoga','Yoga')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Following idols and internet personalities','Following idols')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('listening to music','Listening to music')
@@ -34,7 +33,7 @@ def data_cleaning(df):
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].replace({'Swimming;Dancing;Playing computer games;Singing;Exercising, Playing musical instrument (Piano)':'Swimming;Dancing;Playing computer games;Singing;Playing a musical instrument'})
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].replace({'Painting;walking in nature (jungle)':'Painting;Hiking'})
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].replace({'Dancing;Writing;Puzzles;Playing a musical instrument (guitar), watching films ':'Dancing;Writing;Puzzles;Playing a musical instrument;Watching movies'})
-    #Further grouping
+    #Further grouping due to lack of datapoints
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Baking','Cooking')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Football','Team sports')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Volleyball ','Team sports')
@@ -50,18 +49,8 @@ def data_cleaning(df):
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Following idols','Watching TV series')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Photography','Photography and Videography')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Vlogging','Photography and Videography')
-    return df
-
-def hobby_count(df):
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.split(";")
-    dict_hobby={}
-    for hobbies in df['What are your hobbies? (You may select more than 1)']:
-        for hobby in hobbies:
-            if hobby not in dict_hobby.keys():
-                dict_hobby[hobby]=1
-            else:
-                dict_hobby[hobby]=dict_hobby[hobby]+1
-    print(dict_hobby)
+    return df
     
 if __name__ == '__main__':
   df=pd.read_csv("WID3006 ML Questionnaire.csv")
