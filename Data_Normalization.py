@@ -9,8 +9,8 @@ def data_encoding(df):
     df_hobby=df.iloc[:,3]
     df_ranges = df.iloc[:, 4:17]
   
-    df_categories_encoder = df_categories.apply(LabelEncoder().fit_transform)
-    #df_categories_encoder = pd.get_dummies(df_categories)
+    #df_categories_encoder = df_categories.apply(LabelEncoder().fit_transform)
+    df_categories_encoder = pd.get_dummies(df_categories)
     df = pd.concat([df_categories_encoder, df_ranges], axis =1)
     df = pd.concat([df, df_hobby], axis =1)
     for i in range(len(df)):
