@@ -28,4 +28,5 @@ def data_normalization(df):
 df = pd.read_csv("WID3006 ML Questionnaire.csv")
 df = data_encoding(df)
 df_norm = data_normalization(df)
+#df_norm.corr(method='pearson')
 df_norm
