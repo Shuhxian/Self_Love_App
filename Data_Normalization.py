@@ -18,7 +18,6 @@ def data_encoding(df):
             df.loc[i,hobby]=1
     df=df.fillna(0)
     del df['What are your hobbies? (You may select more than 1)']
-    df = df.drop(df.columns[[6, 74, 78, 108, 109]], axis = 1)
     return df
 
 def data_normalization(df):
