@@ -7,7 +7,7 @@ def data_encoding(df):
     df2 = df.iloc[:, 18:]
     df_categories = pd.concat([df1, df2], axis =1)
     df_hobby=df.iloc[:,3]
-    df_ranges = df.iloc[:, 4:17]
+    df_ranges = df.iloc[:, 4:18]
   
     #df_categories_encoder = df_categories.apply(LabelEncoder().fit_transform)
     df_categories_encoder = pd.get_dummies(df_categories, drop_first = True)
