@@ -18,6 +18,7 @@ def data_encoding(df):
             df.loc[i,hobby]=1
     df=df.fillna(0)
     del df['What are your hobbies? (You may select more than 1)']
+    df = df.drop(df.columns[[6, 74, 78, 108, 109]], axis = 1)
     return df
 
 def data_normalization(df):
@@ -30,3 +31,19 @@ df = data_encoding(df)
 df_norm = data_normalization(df)
 #df_norm.corr(method='pearson')
 df_norm
+
+#Multicollinearity Checking
+'''
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
+def calc_vif(X):
+
+    # Calculating VIF
+    vif = pd.DataFrame()
+    vif["variables"] = X.columns
+    vif["VIF"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+
+    return(vif)
+
+calc_vif(df_norm)
+'''
