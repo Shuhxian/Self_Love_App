@@ -50,6 +50,7 @@ def data_cleaning(df):
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Photography','Photography and Videography')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Vlogging','Photography and Videography')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.split(";")
+    df = df.iloc[2:, :] # delete the first 2 responses because it was randomly answered 
     return df
     
 if __name__ == '__main__':
