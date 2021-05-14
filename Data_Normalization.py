@@ -10,7 +10,7 @@ def data_encoding(df):
     df_ranges = df.iloc[:, 4:17]
   
     #df_categories_encoder = df_categories.apply(LabelEncoder().fit_transform)
-    df_categories_encoder = pd.get_dummies(df_categories, drop_First = True)
+    df_categories_encoder = pd.get_dummies(df_categories, drop_first = True)
     df = pd.concat([df_categories_encoder, df_ranges], axis =1)
     df = pd.concat([df, df_hobby], axis =1)
     for i in range(len(df)):
@@ -18,7 +18,6 @@ def data_encoding(df):
             df.loc[i,hobby]=1
     df=df.fillna(0)
     del df['What are your hobbies? (You may select more than 1)']
-    df = df.drop(df.columns[[6, 74, 78, 108, 109]], axis = 1)
     return df
 
 def data_normalization(df):
