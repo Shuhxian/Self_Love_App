@@ -1,3 +1,6 @@
+#still trying to get the values out after the choices has been chosen.
+#still thinking how should I import the machine learning to the gui
+#thinking should I use Tkinter library instead of PySimpleGUI library since PySimpleGUI has lot of limitation
 import PySimpleGUI as sg
 
 
