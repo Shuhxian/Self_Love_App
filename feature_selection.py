@@ -8,11 +8,11 @@ from Data_Normalization import *
 from sklearn.linear_model import LogisticRegression
 
     
-def sort_by_questions(data, x, ascending = False):
+def sort_by_questions(data, x_columns, ascending = False):
     """
     group the questions & answer features by questions as 1 question is encoded into several feature columns 
     """
-    question_answers_score = pd.DataFrame(data, index=x.columns).reset_index()
+    question_answers_score = pd.DataFrame(data, index=x_columns).reset_index()
     question_answers_score["Question"] = question_answers_score["index"].apply(lambda column_name : column_name.split("_")[0])
     question_score = question_answers_score.groupby("Question").mean().sort_values(0, ascending=ascending)
     return question_score
@@ -40,7 +40,7 @@ def rfe_cv(x_train, y_train, x_columns, y_columns, model, cv=5, scoring="f1_micr
                 print(i+1, x_columns[i])
 
     rfecv_by_class = np.array(rfecv_by_class)
-    rfe_result = sort_by_questions(np.mean(rfecv_by_class, axis=0), x, ascending=True) 
+    rfe_result = sort_by_questions(np.mean(rfecv_by_class, axis=0), x_columns, ascending=True) 
     return rfe_result 
 
 def chi2_analysis(x_train_label_encoded, x_label_encoded_df, y_train):
