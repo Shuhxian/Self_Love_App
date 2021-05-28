@@ -40,8 +40,8 @@ def rfe_cv(x_train, y_train, x_columns, y_columns, model, cv=5, scoring="f1_micr
                 print(i+1, x_columns[i])
 
     rfecv_by_class = np.array(rfecv_by_class)
-    rfe_analysis = sort_by_questions(np.mean(rfecv_by_class, axis=0), x, ascending=True) 
-    return rfe_analysis 
+    rfe_result = sort_by_questions(np.mean(rfecv_by_class, axis=0), x, ascending=True) 
+    return rfe_result 
 
 def chi2_analysis(x_train_label_encoded, x_label_encoded_df, y_train):
     """
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     y = df_norm.iloc[:, 64:]
     x_numpy, y_numpy = x.to_numpy(), y.to_numpy()
     x_train, x_test, y_train, y_test = train_test_split(x_numpy, y_numpy, test_size=0.2, random_state=1)
-    rfe_analysis = rfe_cv(x_train, y_train, x.columns, y.columns, LogisticRegression())
+    rfe_result = rfe_cv(x_train, y_train, x.columns, y.columns, LogisticRegression())
 
     # to pick the selected best questions as features
     # Eg: choose the best 13 features as below
@@ -116,8 +116,9 @@ if __name__ == "__main__":
     df = data_cleaning(df)
     df = data_encoding(df)
     df_norm = data_normalization(df)
-    best_k_features = select_best_k_features(chi2_result, k=13)
-    best_k_features = select_best_k_features(rfe_analysis, k=13)
+    # choose either chi2 or rfe 
+    best_k_features = select_best_k_features(chi2_result, k=13) # choose chi2_result 
+    best_k_features = select_best_k_features(rfe_result, k=13) # choose rfe_analysis
     x = filter_features(best_k_features, df_norm)
 
    
