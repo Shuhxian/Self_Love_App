@@ -21,9 +21,9 @@ def data_encoding(df):
     return df
 
 def data_normalization(df):
-    scaler = MinMaxScaler()
-    df = pd.DataFrame(scaler.fit_transform(df), columns=df.columns)
-    return df
+  # explicity min max scale because we already know the range is from 1 to 5
+  df.iloc[:,50:64] = df.iloc[:,50:64].apply(lambda x: (x-1)/(5-1)) 
+  return df
   
 df = pd.read_csv("WID3006 ML Questionnaire.csv")
 df = data_encoding(df)
