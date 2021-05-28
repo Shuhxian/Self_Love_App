@@ -30,7 +30,7 @@ def rfe_cv(x_train, y_train, x_columns, y_columns, model, cv=5, scoring="f1_micr
         rfecv = RFECV(model, step=1, cv=cv, scoring=scoring)
         rfecv.fit(x_train, y_train[:,i])
         rfecv_by_class.append(rfecv.ranking_)
-        print("Hobby:", y_columns[i])
+        print("\nHobby:", y_columns[i])
         print("Best number of features:", rfecv.n_features_)
         print("Score:", rfecv.grid_scores_[rfecv.n_features_-1])
         for i in range(len(x_columns)): 
