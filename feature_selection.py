@@ -1,13 +1,52 @@
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder
-from sklearn.feature_selection import chi2, SelectKBest
+from sklearn.feature_selection import chi2, SelectKBest, RFECV
 from sklearn.model_selection import train_test_split
 from data_cleaning import *
 from Data_Normalization import *
+from sklearn.linear_model import LogisticRegression
+
+    
+def sort_by_questions(data, x, ascending = False):
+    """
+    group the questions & answer features by questions as 1 question is encoded into several feature columns 
+    """
+    question_answers_score = pd.DataFrame(data, index=x.columns).reset_index()
+    question_answers_score["Question"] = question_answers_score["index"].apply(lambda column_name : column_name.split("_")[0])
+    question_score = question_answers_score.groupby("Question").mean().sort_values(0, ascending=ascending)
+    return question_score
+
+def rfe_cv(x_train, y_train, x_columns, y_columns, model, cv=5, scoring="f1_micro"):
+    """
+    - pick a model to evaluate the feature importance
+    - ranking is used as the feature importance so the lower the score, the better it is
+    - refer to https://machinelearningmastery.com/rfe-feature-selection-in-python/
+    """
+    min_features_to_select=1
+    rfecv_by_class = []
+
+    for i in range(y_train.shape[1]):
+        rfecv = RFECV(model, step=1, cv=cv, scoring=scoring)
+        rfecv.fit(x_train, y_train[:,i])
+        rfecv_by_class.append(rfecv.ranking_)
+        print("Hobby:", y_columns[i])
+        print("Best number of features:", rfecv.n_features_)
+        print("Score:", rfecv.grid_scores_[rfecv.n_features_-1])
+        for i in range(len(x_columns)): 
+            # if the selected feature is included in the best number of features
+            # print the feature name
+            if rfecv.support_[i]:
+                print(i+1, x_columns[i])
+
+    rfecv_by_class = np.array(rfecv_by_class)
+    rfe_analysis = sort_by_questions(np.mean(rfecv_by_class, axis=0), x, ascending=True) 
+    return rfe_analysis 
 
 def chi2_analysis(x_train_label_encoded, x_label_encoded_df, y_train):
     """
+    Why chi2 is suitable? can refer the link below
+    https://machinelearningmastery.com/feature-selection-with-real-and-categorical-data/
     Perform chi-square test between each question and each hobby then return the average score of each question 
     
     """
@@ -60,6 +99,17 @@ if __name__ == "__main__":
     x_train_label_encoded, _, y_train, _ = train_test_split(x_df.to_numpy(), y_df.to_numpy(), test_size=0.2, random_state=1)
     chi2_result = chi2_analysis(x_train_label_encoded, x_df, y_train)
 
+    # to do Recursive Feature Elimination(rfe) feature selection
+    df = pd.read_csv("WID3006 ML Questionnaire.csv")
+    df = data_cleaning(df)
+    df = data_encoding(df)
+    df_norm = data_normalization(df)
+    x = df_norm.iloc[:, :64]
+    y = df_norm.iloc[:, 64:]
+    x_numpy, y_numpy = x.to_numpy(), y.to_numpy()
+    x_train, x_test, y_train, y_test = train_test_split(x_numpy, y_numpy, test_size=0.2, random_state=1)
+    rfe_analysis = rfe_cv(x_train, y_train, x.columns, y.columns, LogisticRegression())
+
     # to pick the selected best questions as features
     # Eg: choose the best 13 features as below
     df = pd.read_csv("WID3006 ML Questionnaire.csv")
@@ -67,4 +117,7 @@ if __name__ == "__main__":
     df = data_encoding(df)
     df_norm = data_normalization(df)
     best_k_features = select_best_k_features(chi2_result, k=13)
+    best_k_features = select_best_k_features(rfe_analysis, k=13)
     x = filter_features(best_k_features, df_norm)
+
+   
