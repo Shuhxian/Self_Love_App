@@ -1,4 +1,7 @@
+import sys 
+sys.path.append("../")
 import pandas as pd
+
 def data_cleaning(df):
     """
     Categorise the hobbies into 8 main categories.

@@ -1,3 +1,6 @@
+import sys 
+sys.path.append("../")
+sys.path.append("../preprocessing")
 import pandas as pd
 import numpy as np
 from sklearn.preprocessing import LabelEncoder

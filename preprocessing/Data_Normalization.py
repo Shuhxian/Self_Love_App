@@ -1,3 +1,5 @@
+import sys 
+sys.path.append("../")
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder  
 from sklearn.preprocessing import MinMaxScaler
@@ -42,11 +44,12 @@ def data_normalization(df):
   df.iloc[:,50:64] = df.iloc[:,50:64].apply(lambda x: (x-1)/(5-1)) 
   return df
 
-df = pd.read_csv("WID3006 ML Questionnaire.csv")
-df = data_encoding(df)
-df_norm = data_normalization(df)
-#df_norm.corr(method='pearson')
-df_norm
+if __name__ == "__main__":
+    df = pd.read_csv("WID3006 ML Questionnaire.csv")
+    df = data_encoding(df)
+    df_norm = data_normalization(df)
+    #df_norm.corr(method='pearson')
+    df_norm
 
 #Multicollinearity Checking
 '''
