@@ -1,6 +1,8 @@
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder  
 from sklearn.preprocessing import MinMaxScaler
+import sys
+sys.path.append("./")
 
 def data_encoding(df):
     df1 = df.iloc[:, 1:3]
