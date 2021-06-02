@@ -1,5 +1,12 @@
 import pandas as pd
 def data_cleaning(df):
+    """
+    Categorise the hobbies into 8 main categories.
+    Param
+    -----
+    df: Dataframe
+    The original dataframe.
+    """
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('yoga','Yoga')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('Following idols and internet personalities','Following idols')
     df['What are your hobbies? (You may select more than 1)']=df['What are your hobbies? (You may select more than 1)'].str.replace('listening to music','Listening to music')
